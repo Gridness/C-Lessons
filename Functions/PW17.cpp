@@ -103,7 +103,7 @@ void arcsin(std::vector<double> numbers) {
 }
 
 void power(std::vector<double> numbers) {
-    displayResult("Синус", pow(numbers[0], numbers[1]));
+    displayResult("Степень", pow(numbers[0], numbers[1]));
 }
 
 void e(std::vector<double> numbers) {
