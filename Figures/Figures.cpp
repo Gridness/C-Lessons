@@ -207,6 +207,74 @@ void superSquare(short figureSize, char texture) {
     }
 }
 
+void grid(short figureSize, char texture){
+    for(int i = 0; i < figureSize; i++){
+        for(int j = 0; j < figureSize; j++){
+            if(i % 2 != 0){
+                std::cout << texture << texture;
+                if(j == figureSize - 1){
+                    std::cout << texture;
+                }
+            } else {
+                std::cout << " " << texture;
+            }
+        }
+        std::cout << " \n";
+    }
+}
+
+void plus(short figureSize, char texture){
+    int middle = figureSize / 2;
+
+    for(int i = 0; i < figureSize; i++){
+        for(int j = 0; j < figureSize; j++){
+            if(i == middle){
+                std::cout << texture;
+            } else if(j == middle){
+                std::cout << texture;
+            } else {
+                std::cout << " ";
+            }
+        }
+        std::cout << "\n";
+    }
+}
+
+void cross(short figureSize, char texture){
+    int middle = figureSize / 2;
+
+    for (int n = middle - 1; n >= 0; n--) {
+            for (int k = 0; k < figureSize; k++) {
+                if (((k < middle - n || k > middle + n) || (k > middle - n && k < middle + n)) && n != middle) {
+                    std::cout << " ";
+                }
+                else {
+                    std::cout << texture;
+                }
+            }
+            std::cout << "\n";
+    }
+    
+    for (int n = 1; n < middle + 1; n++) {
+            for (int k = 0; k < figureSize; k++) {
+                if (((k < middle - n || k > middle + n) || (k > middle - n && k < middle + n)) && n != middle) {
+                    std::cout << " ";
+                }
+                else if (n == middle) {
+                    if (k == 0 || k == figureSize - 1) {
+                        std::cout << texture;
+                    }
+                    else {
+                        std::cout << " ";
+                    }
+                }
+                else {
+                    std::cout << texture;
+                }
+            }
+            std::cout << "\n";
+    }
+}
 
 void draw(short figureType, char texture, short lineType = 0, short figureSize = 0, short rectangleLength = 0, short rectangleWidth = 0) {
     switch (figureType)
@@ -228,6 +296,15 @@ void draw(short figureType, char texture, short lineType = 0, short figureSize =
         break;
     case 6:
         superSquare(figureSize, texture);
+        break;
+    case 7:
+        grid(figureSize, texture);
+        break;
+    case 8:
+        plus(figureSize, texture);
+        break;
+    case 9:
+        cross(figureSize, texture);
         break;
     }
 }
@@ -253,7 +330,10 @@ int main()
     out << "[3] Прямоугольник\n";
     out << "[4] Равносторонний треугольник\n";
     out << "[5] Ромб\n";
-    out << "[6] Вложенные квадраты\n\n";
+    out << "[6] Вложенные квадраты\n";
+    out << "[7] Сетка\n";
+    out << "[8] Плюс\n";
+    out << "[9] Крест\n\n";
 
     out << "[-] Выбрите фигуру -> ";
     in >> figureType;
@@ -391,6 +471,48 @@ int main()
         out << "[-] Выбраны вложенные квадраты\n\n";
 
         out << "[-] Введите длину стороны квадрата -> ";
+        in >> figureSize;
+        while (figureSize <= 0) {
+            out << "[-] Введен нулевой или отрицатеельный размер фигуры. Пожалуйста, повторите ввод -> ";
+            in >> figureSize;
+        }
+        out << "[-] Выберите текстуру -> ";
+        in >> texture;
+        clear();
+        draw(figureType, texture, 0, figureSize, 0, 0);
+        break;
+    case 7:
+        out << "[-] Выбрана сетка\n\n";
+
+        out << "[-] Введите длину стороны сетки -> ";
+        in >> figureSize;
+        while (figureSize <= 0) {
+            out << "[-] Введен нулевой или отрицатеельный размер фигуры. Пожалуйста, повторите ввод -> ";
+            in >> figureSize;
+        }
+        out << "[-] Выберите текстуру -> ";
+        in >> texture;
+        clear();
+        draw(figureType, texture, 0, figureSize, 0, 0);
+        break;
+    case 8:
+        out << "[-] Выбран плюс\n\n";
+
+        out << "[-] Введите длину стороны плюса -> ";
+        in >> figureSize;
+        while (figureSize <= 0) {
+            out << "[-] Введен нулевой или отрицатеельный размер фигуры. Пожалуйста, повторите ввод -> ";
+            in >> figureSize;
+        }
+        out << "[-] Выберите текстуру -> ";
+        in >> texture;
+        clear();
+        draw(figureType, texture, 0, figureSize, 0, 0);
+        break;
+    case 9:
+        out << "[-] Выбран крест\n\n";
+
+        out << "[-] Введите длину стороны креста -> ";
         in >> figureSize;
         while (figureSize <= 0) {
             out << "[-] Введен нулевой или отрицатеельный размер фигуры. Пожалуйста, повторите ввод -> ";
