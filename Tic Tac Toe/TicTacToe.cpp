@@ -716,12 +716,7 @@ void menuSwitcher(int menuOption) {
         break;
     default:
         clear;
-        ApeX::Print::stylizedMessage("Крестики-нолики", 42, 43, 45, 124, true, true, false);
-        ApeX::Print::stylizedMessage("Ошибка", 42, 43, 45, 124, true, false, true);
-        ApeX::Print::stylizedMessage("", 42, 43, 45, 124, false, false, false);
-        ApeX::Print::stylizedMessage("Такой опции в меню нет", 42, 43, 45, 124, false, false, false);
-        ApeX::Print::stylizedMessage("", 42, 43, 45, 124, false, false);
-        Sleep(2000);
+        menuError();
         break;
     }
 }
