@@ -31,8 +31,6 @@ char board3[3][3];
 char board4[4][4];
 char board5[5][5];
 
-/* Не готов только выбор цветов */
-
 void menuError() {
     clear;
     ApeX::Print::stylizedMessage("Крестики-нолики", 42, 43, 45, 124, true, true, false);
