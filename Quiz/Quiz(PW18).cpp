@@ -7,11 +7,13 @@
 
 #pragma comment(lib, "ApeX.lib")
 
-int numberOfQuestions = 5;
+int numberOfQuestions = 15;
 int amountOfAttempts = 3;
 bool helpOfAFriend = true;
 
-// Пока еще не готово, не до конца реализовано 50:50 и псевдорандом
+/* OPTIMIZED FOR APE-X 0.2.3 */
+/* OPTIMIZED FOR APE-X 0.2.3 */
+/* OPTIMIZED FOR APE-X 0.2.3 */
 
 struct Question {
     std::string question;
@@ -102,13 +104,26 @@ void fifityFifty(int currentQuestion) {
                             questions[currentQuestion].wrongAnswers[2],
                             questions[currentQuestion].rightAnswer };
 
-    for (int i = 0; i < 1; i++) {
+    int wrong1 = -1, wrong2 = -1;
+
+    for (int i = 0; i < 2; i++) {
         int randDestroy = rand() % 4;
-        while (totalAnswers[randDestroy] == questions[currentQuestion].rightAnswer) {
+        while (totalAnswers[randDestroy] == questions[currentQuestion].rightAnswer || randDestroy == wrong1) {
             randDestroy = rand() % 4;
         }
-        totalAnswers[randDestroy] = "";
+        if (i == 0) {
+            wrong1 = randDestroy;
+        }
+        else {
+            wrong2 = randDestroy;
+        }
     }
+
+    helpOfAFriend = false;
+
+    ApeX::Print::stylizedMessage("", 96, 43, 45, 124, false, true, false);
+    ApeX::Print::stylizedMessage("Неправильные ответы: \"" + questions[currentQuestion].wrongAnswers[wrong1] + "\" и \"" + questions[currentQuestion].wrongAnswers[wrong2] + "\"", 96, 43, 45, 124, false, false, false);
+    ApeX::Print::stylizedMessage("", 96, 43, 45, 124, false, false);
 }
 
 void addAUsedQuestion(int questionIndex) {
@@ -124,8 +139,9 @@ int randomizeQuestion() {
     int questionIndex = rand() % 20;
 
     for (int i = 0; i < 20; i++) {
-        while (previousQuestions[i] == questionIndex) {
+        if (previousQuestions[i] == questionIndex) {
             questionIndex = rand() % 20;
+            i = 0;
         }
     }
 
@@ -144,10 +160,9 @@ bool checkAnswer(int answer, int answers[4]) {
     return true;
 }
 
-char displayQuestionAndGetTheRightAnswer(int currentQuestionNumber) {
+char displayQuestionAndGetTheRightAnswer(int currentQuestionNumber, int currentQuestion) {
     clear;
 
-    int currentQuestion = randomizeQuestion();
     int randomizedAnswer, randomizedAnswers[4];
     std::string totalAnswers[4] = { questions[currentQuestion].wrongAnswers[0],
                             questions[currentQuestion].wrongAnswers[1],
@@ -222,13 +237,23 @@ void play() {
     char answer, rightAnswer;
 
     while (amountOfAttempts > 0 && currentQuestionNumber < numberOfQuestions) {
-        rightAnswer = displayQuestionAndGetTheRightAnswer(currentQuestionNumber);
+        int currentQuestion = randomizeQuestion();
+        rightAnswer = displayQuestionAndGetTheRightAnswer(currentQuestionNumber, currentQuestion);
         in >> answer;
         if (answer == rightAnswer) {
             currentQuestionNumber++;
         }
         else if (answer == 'h' && helpOfAFriend) {
-            fifityFifty(currentQuestionNumber);
+            fifityFifty(currentQuestion);
+
+            in >> answer;
+            if (answer == rightAnswer) {
+                currentQuestionNumber++;
+            }
+            else {
+                amountOfAttempts--;
+                wrongAnswer();
+            }
         }
         else {
             amountOfAttempts--;
@@ -346,7 +371,7 @@ void settings() {
         }
         break;
     case 4:
-        numberOfQuestions = 5;
+        numberOfQuestions = 15;
         amountOfAttempts = 3;
         helpOfAFriend = true;
         success("Настройки по-умолчанию", "включены");
