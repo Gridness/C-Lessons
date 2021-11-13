@@ -11,7 +11,7 @@ int numberOfQuestions = 5;
 int amountOfAttempts = 3;
 bool helpOfAFriend = true;
 
-// Пока еще не готово, не до конца реализовано 50:50 и проверка правильного ответа
+// Пока еще не готово, не до конца реализовано 50:50 и псевдорандом
 
 struct Question {
     std::string question;
